@@ -22,8 +22,6 @@ class ClientDashboard < Administrate::BaseDashboard
   COLLECTION_ATTRIBUTES = [
     :id,
     :telegram_uid,
-    :created_at,
-    :updated_at,
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
@@ -32,15 +30,14 @@ class ClientDashboard < Administrate::BaseDashboard
     :id,
     :telegram_uid,
     :created_at,
-    :updated_at,
   ].freeze
 
   # FORM_ATTRIBUTES
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
-  FORM_ATTRIBUTES = [
-    :telegram_uid,
-  ].freeze
+  #FORM_ATTRIBUTES = [
+  #  :telegram_uid,
+  #].freeze
 
   # Overwrite this method to customize how clients are displayed
   # across all pages of the admin dashboard.
