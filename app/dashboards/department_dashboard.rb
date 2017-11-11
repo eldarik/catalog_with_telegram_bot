@@ -1,6 +1,6 @@
 require "administrate/base_dashboard"
 
-class ClientDashboard < Administrate::BaseDashboard
+class DepartmentDashboard < Administrate::BaseDashboard
   # ATTRIBUTE_TYPES
   # a hash that describes the type of each of the model's fields.
   #
@@ -9,7 +9,7 @@ class ClientDashboard < Administrate::BaseDashboard
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
     id: Field::Number,
-    telegram_uid: Field::String,
+    name: Field::String,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
   }.freeze
@@ -21,28 +21,31 @@ class ClientDashboard < Administrate::BaseDashboard
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = [
     :id,
-    :telegram_uid,
+    :name,
+    :created_at,
+    :updated_at,
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = [
     :id,
-    :telegram_uid,
+    :name,
     :created_at,
+    :updated_at,
   ].freeze
 
   # FORM_ATTRIBUTES
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
-  #FORM_ATTRIBUTES = [
-  #  :telegram_uid,
-  #].freeze
+  FORM_ATTRIBUTES = [
+    :name,
+  ].freeze
 
-  # Overwrite this method to customize how clients are displayed
+  # Overwrite this method to customize how departments are displayed
   # across all pages of the admin dashboard.
   #
-  # def display_resource(client)
-  #   "Client ##{client.id}"
-  # end
+  def display_resource(department)
+    department.name
+  end
 end
