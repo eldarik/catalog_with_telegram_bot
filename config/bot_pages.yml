@@ -1,0 +1,8 @@
+categories: TelegramShopBot::PageRenderers::Categories
+departments: TelegramShopBot::PageRenderers::Departments
+detailed_product: TelegramShopBot::PageRenderers::DetailedProduct
+main: TelegramShopBot::PageRenderers::Main
+search: TelegramShopBot::PageRenderers::Search
+start: TelegramShopBot::PageRenderers::Start
+product: TelegramShopBot::PageRenderers::Product
+products: TelegramShopBot::PageRenderers::Product
