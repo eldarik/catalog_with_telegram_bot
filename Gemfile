@@ -32,3 +32,4 @@ gem 'dotenv-rails', groups: [:development, :test]
 gem 'administrate'
 gem 'telegram-bot-ruby'
 
+gem 'redis'
