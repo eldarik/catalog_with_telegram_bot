@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+require 'telegram/bot'
+token = ENV['TG_BOT_TOKEN']
+puts token
+
+Telegram::Bot::Client.run(token) do |bot|
+  bot.listen do |message|
+  end
+end
