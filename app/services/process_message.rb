@@ -28,7 +28,15 @@ class ProcessMessage < Service
     when '/main'
       process_main_page
     else
-      binding.pry
+      save_contact_information
+      process_main_page
+    end
+  end
+
+  def save_contact_information
+    if message[:contact].present?
+      Client.find_or_initialize_by(telegram_uid: message[:user_id])
+            .update(message[:contact].slice(:phone_number, :first_name, :last_name))
     end
   end
 
@@ -42,21 +50,21 @@ class ProcessMessage < Service
   def process_start_page
     state.update(page: 'start')
     @bot.run do |bot|
-      TelegramShopBot::PageRenderers::Start.new(bot: bot, chat_id: message[:chat_id]).render_for_recipient
+      TelegramShopBot::PageRenderers::Start.new(bot: bot, recipient_id: message[:recipient_id]).render_for_recipient
     end
   end
 
   def process_search_page
     state.update(page: 'search')
     @bot.run do |bot|
-      TelegramShopBot::PageRenderers::Search.new(bot: bot, chat_id: message[:chat_id]).render_for_recipient
+      TelegramShopBot::PageRenderers::Search.new(bot: bot, recipient_id: message[:recipient_id]).render_for_recipient
     end
   end
 
   def process_main_page
     state.update(page: 'main')
     @bot.run do |bot|
-      TelegramShopBot::PageRenderers::Main.new(bot: bot, chat_id: message[:chat_id]).render_for_recipient
+      TelegramShopBot::PageRenderers::Main.new(bot: bot, recipient_id: message[:recipient_id]).render_for_recipient
     end
   end
 
