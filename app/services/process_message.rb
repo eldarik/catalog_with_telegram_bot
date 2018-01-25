@@ -82,6 +82,20 @@ class ProcessMessage < Service
   end
 
   def process_products_page(args = {})
+    category_id = args[:category_id]
+    products = if category_id.present?
+                   Category.find(category_id).products
+                 else
+                   Product.all
+                 end
+    state.update(page: 'products')
+    @bot.run do |bot|
+      products.each do |product|
+        TelegramShopBot::PageRenderers::Product.new(
+          bot: bot, recipient_id: message[:user_id], product: product
+        ).render_for_recipient
+      end
+    end
   end
 
   def process_start_page
