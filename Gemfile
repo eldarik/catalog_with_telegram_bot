@@ -33,3 +33,6 @@ gem 'administrate'
 gem 'telegram-bot-ruby'
 
 gem 'redis'
+gem 'sidekiq'
+
+gem 'pry'
