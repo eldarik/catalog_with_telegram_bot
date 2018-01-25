@@ -2,6 +2,7 @@ class ProcessMessageJob < ApplicationJob
   queue_as :default
 
   def perform(message)
-    puts message
+    ProcessMessage.call(message)
   end
+
 end
