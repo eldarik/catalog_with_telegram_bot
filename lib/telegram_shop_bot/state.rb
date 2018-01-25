@@ -3,12 +3,13 @@ class TelegramShopBot::State
 
   def initialize(user_id:)
     @redis_connection = Redis.new
-    @state = JSON.parse(redis_connection.get(user)) rescue nil
+    @state = JSON.parse(redis_connection.get(user)) rescue {}
   end
 
-  def update(page:, order:)
-    @state[:previous_page]= @state[:current_page]
-    @state[:order]= order
+  def update(args)
+    @state[:previous_page] = @state[:current_page]
+    @state[:current_page] = args[:page]
+    @state[:order]= args[:order]
   end
 
 end
