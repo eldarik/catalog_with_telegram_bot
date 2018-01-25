@@ -24,7 +24,7 @@ class TelegramShopBot::PageRenderers::Product < TelegramShopBot::PageRenderers::
   def generate_text_messages
     [
       product.name,
-      "#{product.description[0..300]}..."
+      "#{product.description.split('.').first(3).join}."
     ]
   end
 end
