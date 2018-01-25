@@ -44,27 +44,64 @@ class ProcessMessage < Service
     case message[:data]
     when 'search'
       process_search_page
+    when 'departments'
+      process_departments_page
+    when 'categories'
+      process_categories_page
+    else
+      if message[:data] =~ /departments\/(\d+)/
+        process_categories_page(department_id: $1)
+      elsif message[:data] =~ /categories\/(\d+)/
+        process_products_page(category_id: $1)
+      end
     end
+  end
+
+  def process_departments_page
+    state.update(page: 'departments')
+    @bot.run do |bot|
+      TelegramShopBot::PageRenderers::Departments.new(
+        bot: bot, recipient_id: message[:user_id], departments: Department.all
+      ).render_for_recipient
+    end
+  end
+
+  def process_categories_page(args = {})
+    department_id = args[:department_id]
+    categories = if department_id.present?
+                   Department.find(department_id).categories
+                 else
+                   Category.all
+                 end
+    state.update(page: 'categories')
+    @bot.run do |bot|
+      TelegramShopBot::PageRenderers::Categories.new(
+        bot: bot, recipient_id: message[:user_id], categories: categories
+      ).render_for_recipient
+    end
+  end
+
+  def process_products_page(args = {})
   end
 
   def process_start_page
     state.update(page: 'start')
     @bot.run do |bot|
-      TelegramShopBot::PageRenderers::Start.new(bot: bot, recipient_id: message[:recipient_id]).render_for_recipient
+      TelegramShopBot::PageRenderers::Start.new(bot: bot, recipient_id: message[:user_id]).render_for_recipient
     end
   end
 
   def process_search_page
     state.update(page: 'search')
     @bot.run do |bot|
-      TelegramShopBot::PageRenderers::Search.new(bot: bot, recipient_id: message[:recipient_id]).render_for_recipient
+      TelegramShopBot::PageRenderers::Search.new(bot: bot, recipient_id: message[:user_id]).render_for_recipient
     end
   end
 
   def process_main_page
     state.update(page: 'main')
     @bot.run do |bot|
-      TelegramShopBot::PageRenderers::Main.new(bot: bot, recipient_id: message[:recipient_id]).render_for_recipient
+      TelegramShopBot::PageRenderers::Main.new(bot: bot, recipient_id: message[:user_id]).render_for_recipient
     end
   end
 

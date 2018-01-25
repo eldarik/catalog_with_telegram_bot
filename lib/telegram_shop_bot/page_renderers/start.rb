@@ -9,7 +9,7 @@ class TelegramShopBot::PageRenderers::Start < TelegramShopBot::PageRenderers::Ba
     keyboard = Telegram::Bot::Types::KeyboardButton.new(text: 'разрешить', request_contact: true)
     markup = Telegram::Bot::Types::ReplyKeyboardMarkup.new(keyboard: keyboard)
     bot.api.send_message(
-      recipient_id: recipient_id, text: 'доступ к номеру телефона', reply_markup: markup
+      chat_id: recipient_id, text: 'доступ к номеру телефона', reply_markup: markup
     )
   end
 end

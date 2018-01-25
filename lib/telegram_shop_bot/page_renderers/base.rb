@@ -24,18 +24,18 @@ class TelegramShopBot::PageRenderers::Base
   private
   def render_images
     images&.each do |image|
-      bot.api.send_photo(recipient_id: recipient_id, photo: image)
+      bot.api.send_photo(chat_id: recipient_id, photo: image)
     end
   end
 
   def render_text_messages
     text_messages&.each do |m|
-      bot.api.send_message(recipient_id: recipient_id, text: m)
+      bot.api.send_message(chat_id: recipient_id, text: m)
     end
   end
 
   def render_keyboard
-    bot.api.send_message(recipient_id: recipient_id, text: 'Выбирете дальнейшее действие', reply_markup: keyboard)
+    bot.api.send_message(chat_id: recipient_id, text: 'Выбирете дальнейшее действие', reply_markup: keyboard)
   end
 
   def initialize_keyboard(keyboard_buttons)

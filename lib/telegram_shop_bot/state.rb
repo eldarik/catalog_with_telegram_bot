@@ -9,6 +9,7 @@ class TelegramShopBot::State
   def update(args)
     @state[:previous_page] = @state[:current_page]
     @state[:current_page] = args[:page]
+    @state[:page_options] = args[:page_options]
     @state[:order]= args[:order]
   end
 
