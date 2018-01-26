@@ -28,12 +28,16 @@ class ProcessMessage < Service
     when '/main'
       process_main_page
     else
-      case current_state.state[:current_page]
+      case current_state.value[:current_page]
       when 'search'
         process_search_page_with_query(q: message[:text])
       else
-        save_contact_information
-        process_main_page
+        if current_state.value[:current_page] =~ /products\/(\d+)\/add_to_order/
+          add_product_to_order(product_id: $1, count: message[:text])
+        else
+          save_contact_information
+          process_main_page
+        end
       end
     end
   end
@@ -53,13 +57,19 @@ class ProcessMessage < Service
       process_departments_page
     when 'categories'
       process_categories_page
+    when 'current_order'
+      process_order_page
     else
       if message[:data] =~ /departments\/(\d+)/
         process_categories_page(department_id: $1)
       elsif message[:data] =~ /categories\/(\d+)/
         process_products_page(category_id: $1)
-      elsif message[:data] =~ /products\/(\d+)/
+      elsif message[:data] =~ /products\/(\d+)\z/
         process_product_page(product_id: $1)
+      elsif message[:data] =~ /products\/(\d+)\/add_to_order/
+        process_add_to_order(product_id: $1)
+      elsif message[:data] =~ /products\/(\d+)\/remove_from_order/
+        process_remove_from_order(product_id: $1)
       end
     end
   end
@@ -152,4 +162,32 @@ class ProcessMessage < Service
     end
   end
 
+  def process_current_order_page
+    #todo
+  end
+
+  def process_add_to_order(product_id:)
+    product = Product.find(product_id)
+    current_state.update(page: "products/#{product_id}/add_to_order")
+    @bot.run do |bot|
+      TelegramShopBot::PageRenderers::AddProduct.new(bot: bot, recipient_id: message[:user_id], product: product).render_for_recipient
+    end
+  end
+
+  def add_product_to_order(product_id:, count:)
+    @bot.run do |bot|
+      if count.to_i < 1
+        TelegramShopBot::PageRenderers::Base.new(bot: bot, recipient_id: message[:user_id], text_messages: ['пожалуйста, укажите количество больше 0']).render_for_recipient
+      else
+        current_order = current_state.value[:order]
+        current_order << { product_id => count.to_i }
+        current_state.update(order: current_order)
+        TelegramShopBot::PageRenderers::Base.new(bot: bot, recipient_id: message[:user_id], text_messages: ['добавлен']).render_for_recipient
+        process_main_page
+      end
+    end
+  end
+
+  def process_remove_from_order(product_id:)
+  end
 end

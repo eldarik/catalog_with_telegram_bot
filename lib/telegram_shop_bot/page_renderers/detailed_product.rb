@@ -3,8 +3,8 @@ class TelegramShopBot::PageRenderers::DetailedProduct < TelegramShopBot::PageRen
   def initialize(args)
     @product = args[:product]
     args[:image_paths] = get_image_paths
-    args[:text_messages] |= generate_text_messages
-    args[:keyboard_buttons] |= generate_keyboard_buttons
+    args[:text_messages] ||= generate_text_messages
+    args[:keyboard_buttons] ||= generate_keyboard_buttons
     super
   end
 
