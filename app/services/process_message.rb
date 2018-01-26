@@ -182,7 +182,7 @@ class ProcessMessage < Service
       if count.to_i < 1
         TelegramShopBot::PageRenderers::Base.new(bot: bot, recipient_id: message[:user_id], text_messages: ['пожалуйста, укажите количество больше 0']).render_for_recipient
       else
-        current_order = current_state.value[:order]
+        current_order = current_state.value[:order] || []
         current_order << { product_id: product_id, count: count.to_i }
         current_state.update(order: current_order)
         TelegramShopBot::PageRenderers::Base.new(bot: bot, recipient_id: message[:user_id], text_messages: ['добавлен']).render_for_recipient
