@@ -15,7 +15,7 @@ class TelegramShopBot::State
     if args[:page_options].present?
       @value[:page_options] = args[:page_options]
     end
-    if args[:order].present?
+    unless args[:order].nil?
       @value[:order]= args[:order]
     end
     redis_connection.set(user_id, value.to_json)

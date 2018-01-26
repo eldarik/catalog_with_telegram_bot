@@ -192,5 +192,11 @@ class ProcessMessage < Service
   end
 
   def process_remove_from_order(product_id:)
+    current_order = current_state.value[:order]
+    current_order = current_order.reject { |p| p['product_id'].to_i == product_id.to_i }
+    current_state.update(order: current_order)
+    @bot.run do |bot|
+      TelegramShopBot::PageRenderers::Base.new(bot: bot, recipient_id: message[:user_id], text_messages: ['удален']).render_for_recipient
+    end
   end
 end
