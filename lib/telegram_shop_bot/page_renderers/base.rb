@@ -35,7 +35,9 @@ class TelegramShopBot::PageRenderers::Base
   end
 
   def render_keyboard
-    bot.api.send_message(chat_id: recipient_id, text: 'Выбирете дальнейшее действие', reply_markup: keyboard)
+    if keyboard.present?
+      bot.api.send_message(chat_id: recipient_id, text: 'Выбирете дальнейшее действие', reply_markup: keyboard)
+    end
   end
 
   def initialize_keyboard(keyboard_buttons)

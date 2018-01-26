@@ -5,12 +5,12 @@ class ProcessMessage < Service
   def call(args)
     @bot = ::Telegram::Bot::Client.new(Rails.application.secrets.tg_bot_token)
     @message = args[:message]
-    @state = TelegramShopBot::State.new(user_id: message[:user_id])
+    @current_state = TelegramShopBot::State.new(user_id: message[:user_id])
     process
   end
 
   private
-  attr_accessor :message, :state
+  attr_accessor :message, :current_state
 
   def process
     case message[:type]
@@ -28,8 +28,13 @@ class ProcessMessage < Service
     when '/main'
       process_main_page
     else
-      save_contact_information
-      process_main_page
+      case current_state.state[:current_page]
+      when 'search'
+        process_search_page_with_query(q: message[:text])
+      else
+        save_contact_information
+        process_main_page
+      end
     end
   end
 
@@ -58,7 +63,7 @@ class ProcessMessage < Service
   end
 
   def process_departments_page
-    state.update(page: 'departments')
+    current_state.update(page: 'departments')
     @bot.run do |bot|
       TelegramShopBot::PageRenderers::Departments.new(
         bot: bot, recipient_id: message[:user_id], departments: Department.all
@@ -73,7 +78,7 @@ class ProcessMessage < Service
                  else
                    Category.all
                  end
-    state.update(page: 'categories')
+    current_state.update(page: 'categories')
     @bot.run do |bot|
       TelegramShopBot::PageRenderers::Categories.new(
         bot: bot, recipient_id: message[:user_id], categories: categories
@@ -88,7 +93,7 @@ class ProcessMessage < Service
                  else
                    Product.all
                  end
-    state.update(page: 'products')
+    current_state.update(page: 'products')
     @bot.run do |bot|
       products.each do |product|
         TelegramShopBot::PageRenderers::Product.new(
@@ -99,21 +104,33 @@ class ProcessMessage < Service
   end
 
   def process_start_page
-    state.update(page: 'start')
+    current_state.update(page: 'start')
     @bot.run do |bot|
       TelegramShopBot::PageRenderers::Start.new(bot: bot, recipient_id: message[:user_id]).render_for_recipient
     end
   end
 
   def process_search_page
-    state.update(page: 'search')
+    current_state.update(page: 'search')
     @bot.run do |bot|
       TelegramShopBot::PageRenderers::Search.new(bot: bot, recipient_id: message[:user_id]).render_for_recipient
     end
   end
 
+  def process_search_page_with_query(q:)
+    current_state.update(page: 'products')
+    products = Product.search(q)
+    @bot.run do |bot|
+      products.each do |product|
+        TelegramShopBot::PageRenderers::Product.new(
+          bot: bot, recipient_id: message[:user_id], product: product
+        ).render_for_recipient
+      end
+    end
+  end
+
   def process_main_page
-    state.update(page: 'main')
+    current_state.update(page: 'main')
     @bot.run do |bot|
       TelegramShopBot::PageRenderers::Main.new(bot: bot, recipient_id: message[:user_id]).render_for_recipient
     end
