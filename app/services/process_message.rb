@@ -58,7 +58,7 @@ class ProcessMessage < Service
     when 'categories'
       process_categories_page
     when 'current_order'
-      process_order_page
+      process_current_order_page
     else
       if message[:data] =~ /departments\/(\d+)/
         process_categories_page(department_id: $1)
@@ -163,7 +163,10 @@ class ProcessMessage < Service
   end
 
   def process_current_order_page
-    #todo
+    current_state.update(page: "current_order")
+    @bot.run do |bot|
+      TelegramShopBot::PageRenderers::CurrentOrder.new(bot: bot, recipient_id: message[:user_id], order: current_state.value[:order]).render_for_recipient
+    end
   end
 
   def process_add_to_order(product_id:)
@@ -180,7 +183,7 @@ class ProcessMessage < Service
         TelegramShopBot::PageRenderers::Base.new(bot: bot, recipient_id: message[:user_id], text_messages: ['пожалуйста, укажите количество больше 0']).render_for_recipient
       else
         current_order = current_state.value[:order]
-        current_order << { product_id => count.to_i }
+        current_order << { product_id: product_id, count: count.to_i }
         current_state.update(order: current_order)
         TelegramShopBot::PageRenderers::Base.new(bot: bot, recipient_id: message[:user_id], text_messages: ['добавлен']).render_for_recipient
         process_main_page
