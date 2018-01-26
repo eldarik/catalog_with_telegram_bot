@@ -58,6 +58,8 @@ class ProcessMessage < Service
         process_categories_page(department_id: $1)
       elsif message[:data] =~ /categories\/(\d+)/
         process_products_page(category_id: $1)
+      elsif message[:data] =~ /products\/(\d+)/
+        process_product_page(product_id: $1)
       end
     end
   end
@@ -118,12 +120,18 @@ class ProcessMessage < Service
   end
 
   def process_search_page_with_query(q:)
-    current_state.update(page: 'products')
     products = Product.search(q)
     @bot.run do |bot|
-      products.each do |product|
-        TelegramShopBot::PageRenderers::Product.new(
-          bot: bot, recipient_id: message[:user_id], product: product
+      if products.present?
+        current_state.update(page: 'products')
+        products.each do |product|
+          TelegramShopBot::PageRenderers::Product.new(
+            bot: bot, recipient_id: message[:user_id], product: product
+          ).render_for_recipient
+        end
+      else
+        TelegramShopBot::PageRenderers::Base.new(
+          bot: bot, recipient_id: message[:user_id], text_messages: ['ничего не найдено, попробуйте найти что-нибудь другое']
         ).render_for_recipient
       end
     end
@@ -133,6 +141,14 @@ class ProcessMessage < Service
     current_state.update(page: 'main')
     @bot.run do |bot|
       TelegramShopBot::PageRenderers::Main.new(bot: bot, recipient_id: message[:user_id]).render_for_recipient
+    end
+  end
+
+  def process_product_page(product_id:)
+    current_state.update(page: "products/#{product_id}")
+    product = Product.find(product_id)
+    @bot.run do |bot|
+      TelegramShopBot::PageRenderers::DetailedProduct.new(bot: bot, recipient_id: message[:user_id], product: product).render_for_recipient
     end
   end
 

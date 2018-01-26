@@ -9,8 +9,6 @@ class TelegramShopBot::PageRenderers::Base
     raise 'recipient_id is required' unless recipient_id.present?
 
     initialize_keyboard(args[:keyboard_buttons])
-
-    initialize_keyboard(args[:keyboard_buttons])
     initialize_images(args[:image_paths])
     @text_messages = args[:text_messages]
   end

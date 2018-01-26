@@ -16,15 +16,15 @@ class TelegramShopBot::PageRenderers::Product < TelegramShopBot::PageRenderers::
 
   def generate_keyboard_buttons
     [
-      { text: 'подробнее', callback_data: "product/#{product.id}" },
-      { text: 'добавить к заказу', callback_data: "order/product/#{product.id}" }
+      { text: 'подробнее', callback_data: "products/#{product.id}" },
+      { text: 'добавить к заказу', callback_data: "products/#{product.id}/add_to_order" }
     ]
   end
 
   def generate_text_messages
     [
       product.name,
-      "#{product.description.split('.').first(3).join}."
+      "Описание: \n#{product.description.split('.').first(2).join}."
     ]
   end
 end
