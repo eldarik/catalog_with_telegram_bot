@@ -1,0 +1,23 @@
+#!/usr/bin/env ruby
+
+ENV['RAILS_ENV'] = "production"
+require_relative '../config/environment.rb'
+require 'telegram/bot'
+
+token = ENV['TG_BOT_TOKEN']
+
+Telegram::Bot::Client.run(token) do |bot|
+  bot.listen do |message|
+    ProcessMessageJob.perform_later(
+      {
+        message: {
+          user_id: message.from.id,
+          type: message.class.name,
+          data: message.respond_to?(:data) ? message.data : nil,
+          text: message.respond_to?(:text) ? message.text : nil,
+          contact: message.respond_to?(:contact) ? message.contact.to_h : nil
+        }
+      }
+    )
+  end
+end

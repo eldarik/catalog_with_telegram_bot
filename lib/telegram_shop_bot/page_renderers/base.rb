@@ -8,7 +8,9 @@ class TelegramShopBot::PageRenderers::Base
     @recipient_id = args[:recipient_id]
     raise 'recipient_id is required' unless recipient_id.present?
 
-    initialize_keyboard(args[:keyboard_buttons])
+    unless args[:without_buttons]
+      initialize_keyboard(args[:keyboard_buttons])
+    end
     initialize_images(args[:image_paths])
     @text_messages = args[:text_messages]
   end
@@ -33,20 +35,24 @@ class TelegramShopBot::PageRenderers::Base
   end
 
   def render_keyboard
-    bot.api.send_message(chat_id: recipient_id, text: 'Выбирете дальнейшее действие', reply_markup: keyboard)
+    if keyboard.present?
+      bot.api.send_message(chat_id: recipient_id, text: 'Выбирете дальнейшее действие', reply_markup: keyboard)
+    end
   end
 
   def initialize_keyboard(keyboard_buttons)
-    buttons =
-      keyboard_buttons.map do |b|
-        Telegram::Bot::Types::InlineKeyboardButton.new(b.slice(:text, :callback_data))
-      end
-    @keyboard =
-      markup = Telegram::Bot::Types::InlineKeyboardMarkup.new(inline_keyboard: buttons)
+    if keyboard_buttons.present?
+      buttons =
+        keyboard_buttons.map do |b|
+          Telegram::Bot::Types::InlineKeyboardButton.new(b.slice(:text, :callback_data))
+        end
+      @keyboard =
+        markup = Telegram::Bot::Types::InlineKeyboardMarkup.new(inline_keyboard: buttons)
+    end
   end
 
   def initialize_images(image_paths)
-    @images = image_paths&.map { |i| Faraday::UploadIO.new(i, 'image/jpeg')
+    @images = image_paths&.map { |i| Faraday::UploadIO.new(i, 'image/jpeg') }
   end
 
 end

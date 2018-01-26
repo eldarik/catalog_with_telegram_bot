@@ -1,10 +1,10 @@
-class TelegramShopBot::PageRenderers::Product < TelegramShopBot::PageRenderers::Base
+class TelegramShopBot::PageRenderers::DetailedProduct < TelegramShopBot::PageRenderers::Base
   attr_accessor :product
   def initialize(args)
     @product = args[:product]
     args[:image_paths] = get_image_paths
-    args[:text_messages] |= generate_text_messages
-    args[:keyboard_buttons] |= generate_keyboard_buttons
+    args[:text_messages] ||= generate_text_messages
+    args[:keyboard_buttons] ||= generate_keyboard_buttons
     super
   end
 
@@ -16,14 +16,14 @@ class TelegramShopBot::PageRenderers::Product < TelegramShopBot::PageRenderers::
 
   def generate_keyboard_buttons
     [
-      { text: 'добавить к заказу', callback_data: "order/product/#{id}" }
+      { text: 'добавить к заказу', callback_data: "products/#{product.id}/add_to_order" }
     ]
   end
 
   def generate_text_messages
     [
       product.name,
-      product.description
+      "Описание: \n#{product.description}"
     ]
   end
 end
