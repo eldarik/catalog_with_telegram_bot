@@ -3,18 +3,28 @@ class TelegramShopBot::PageRenderers::CurrentOrder < TelegramShopBot::PageRender
 
   def initialize(args)
     @order = args[:order]
-    if order.present?
-      args[:text_messages] = [
-        ::Product.find(args['product_id']).name,
-        "количество #{args['count']}"
-      ]
-      args[:keyboard_buttons] = [
-        { text: 'удалить', callback_data: "products/#{args['product_id']}/remove_from_order" }
-      ]
-    else
-      args[:text_messages] = ['ваша корзина пуста']
-    end
-
     super
+  end
+
+  def render_for_recipient
+    if order.present?
+      order.each do |product|
+        TelegramShopBot::PageRenderers::Base.new(
+          bot: bot, recipient_id: recipient_id,
+          text_messages: [
+            ::Product.find(product['product_id']).name,
+            "количество #{product['count']}"
+          ],
+          keyboard_buttons: [
+            { text: 'удалить', callback_data: "products/#{product['product_id']}/remove_from_order" }
+          ]
+        ).render_for_recipient
+      end
+    else
+      TelegramShopBot::PageRenderers::Base.new(
+        bot: bot, recipient_id: recipient_id,
+        text_messages: [ "ваша корзина пуста" ]
+      )
+    end
   end
 end
