@@ -36,3 +36,4 @@ gem 'redis'
 gem 'sidekiq'
 
 gem 'pry'
+gem 'attachinary'
