@@ -52,7 +52,7 @@ class TelegramShopBot::PageRenderers::Base
   end
 
   def initialize_images(image_paths)
-    @images = image_paths&.compact.map { |i| Faraday::UploadIO.new(i, 'image/jpeg') }
+    @images = image_paths&.compact&.map { |i| Faraday::UploadIO.new(i, 'image/jpeg') }
   end
 
 end
