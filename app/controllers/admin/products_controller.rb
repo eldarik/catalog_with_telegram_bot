@@ -4,7 +4,7 @@ module Admin
       resource = resource_class.new(resource_params)
 
       if resource.save
-        resource.images = params.dig('product', 'image')
+        resource.images = params.dig('product', 'images')
         redirect_to(
           [namespace, resource],
           notice: translate_with_resource("create.success"),
@@ -18,7 +18,7 @@ module Admin
 
     def update
       if requested_resource.update(resource_params)
-        requested_resource.images = params.dig('product', 'image')
+        requested_resource.images = params.dig('product', 'images')
         redirect_to(
           [namespace, requested_resource],
           notice: translate_with_resource("update.success"),
