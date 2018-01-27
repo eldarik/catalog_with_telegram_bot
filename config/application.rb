@@ -25,6 +25,7 @@ module ShopWithTelegramBot
     # -- all .rb files in that directory are automatically loaded.
     config.autoload_paths << Rails.root.join('app','services')
     config.eager_load_paths << Rails.root.join('app','services')
+    config.eager_load_paths << Rails.root.join('app','fields')
     config.autoload_paths << Rails.root.join('lib')
     config.eager_load_paths << Rails.root.join('lib')
 

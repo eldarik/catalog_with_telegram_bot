@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  mount Attachinary::Engine => "/attachinary"
+
   namespace :admin do
     resources :clients, only: [:show, :index]
     resources :departments
