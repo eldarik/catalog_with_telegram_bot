@@ -1,21 +1,33 @@
 module Admin
   class ProductsController < Admin::ApplicationController
-    # To customize the behavior of this controller,
-    # you can overwrite any of the RESTful actions. For example:
-    #
-    # def index
-    #   super
-    #   @resources = Product.
-    #     page(params[:page]).
-    #     per(10)
-    # end
+    def create
+      resource = resource_class.new(resource_params)
 
-    # Define a custom finder by overriding the `find_resource` method:
-    # def find_resource(param)
-    #   Product.find_by!(slug: param)
-    # end
+      if resource.save
+        resource.images = params.dig('product', 'image')
+        redirect_to(
+          [namespace, resource],
+          notice: translate_with_resource("create.success"),
+        )
+      else
+        render :new, locals: {
+          page: Administrate::Page::Form.new(dashboard, resource),
+        }
+      end
+    end
 
-    # See https://administrate-prototype.herokuapp.com/customizing_controller_actions
-    # for more information
+    def update
+      if requested_resource.update(resource_params)
+        requested_resource.images = params.dig('product', 'image')
+        redirect_to(
+          [namespace, requested_resource],
+          notice: translate_with_resource("update.success"),
+        )
+      else
+        render :edit, locals: {
+          page: Administrate::Page::Form.new(dashboard, requested_resource),
+        }
+      end
+    end
   end
 end
