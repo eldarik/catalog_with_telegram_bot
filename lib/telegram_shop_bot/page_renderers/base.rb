@@ -16,8 +16,8 @@ class TelegramShopBot::PageRenderers::Base
   end
 
   def render_for_recipient
-    render_images
     render_text_messages
+    render_images
     render_keyboard
   end
 
