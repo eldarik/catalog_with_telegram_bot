@@ -39,3 +39,5 @@ gem 'sidekiq'
 gem 'pry'
 gem 'attachinary'
 gem 'cloudinary'
+gem 'responders'
+
