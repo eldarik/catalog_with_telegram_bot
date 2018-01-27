@@ -24,7 +24,7 @@ class TelegramShopBot::PageRenderers::CurrentOrder < TelegramShopBot::PageRender
       TelegramShopBot::PageRenderers::Base.new(
         bot: bot, recipient_id: recipient_id,
         text_messages: [ "ваша корзина пуста" ]
-      )
+      ).render_for_recipient
     end
   end
 end
