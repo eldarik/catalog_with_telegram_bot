@@ -10,8 +10,15 @@ class TelegramShopBot::PageRenderers::Product < TelegramShopBot::PageRenderers::
 
   private
   def get_image_paths
-    #todo add images to products
-    []
+    [cache_image(product.images.first)]
+  end
+
+  def cache_image(image)
+    service_result =
+      DownloadImageFromCloudinary.call(
+        upload: image, options_for_image: { width: 185, height: 74, crop: :fit }
+      )
+    service_result.success? ? service_result.data[:file_path].to_s : nil
   end
 
   def generate_keyboard_buttons
