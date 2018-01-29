@@ -25,6 +25,9 @@ class ClientDashboard < Administrate::BaseDashboard
   COLLECTION_ATTRIBUTES = [
     :id,
     :telegram_uid,
+    :first_name,
+    :last_name,
+    :phone_number
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
@@ -32,7 +35,9 @@ class ClientDashboard < Administrate::BaseDashboard
   SHOW_PAGE_ATTRIBUTES = [
     :id,
     :telegram_uid,
-    :created_at,
+    :first_name,
+    :last_name,
+    :phone_number
   ].freeze
 
   # FORM_ATTRIBUTES
