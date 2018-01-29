@@ -41,3 +41,4 @@ gem 'attachinary'
 gem 'cloudinary'
 gem 'responders'
 
+gem 'pg_search'
