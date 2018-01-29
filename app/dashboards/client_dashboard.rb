@@ -12,6 +12,9 @@ class ClientDashboard < Administrate::BaseDashboard
     telegram_uid: Field::String,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
+    first_name: Field::String,
+    last_name: Field::String,
+    phone_number: Field::String
   }.freeze
 
   # COLLECTION_ATTRIBUTES
