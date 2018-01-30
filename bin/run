@@ -1,0 +1,4 @@
+cp production.env .env
+source .env
+bin/bot & disown
+bundle exec sidekiq -d -l log/sidekiq.logs
