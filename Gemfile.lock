@@ -280,6 +280,7 @@ DEPENDENCIES
   database_cleaner
   dotenv-rails
   jquery-rails
+  kaminari
   pg (~> 0.18)
   pg_search
   pry

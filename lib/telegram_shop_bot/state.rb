@@ -12,9 +12,7 @@ class TelegramShopBot::State
       @value[:previous_page] = @value[:current_page]
       @value[:current_page] = args[:page]
     end
-    if args[:page_options].present?
-      @value[:page_options] = args[:page_options]
-    end
+    @value[:page_options] = args[:page_options]
     unless args[:order].nil?
       @value[:order]= args[:order]
     end

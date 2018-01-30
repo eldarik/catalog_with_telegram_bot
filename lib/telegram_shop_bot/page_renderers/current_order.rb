@@ -20,6 +20,12 @@ class TelegramShopBot::PageRenderers::CurrentOrder < TelegramShopBot::PageRender
           ]
         ).render_for_recipient
       end
+      TelegramShopBot::PageRenderers::Base.new(
+        bot: bot, recipient_id: recipient_id,
+        keyboard_buttons: [
+          { text: 'сохранить заказ', callback_data: "save_current_order" }
+        ]
+      ).render_for_recipient
     else
       TelegramShopBot::PageRenderers::Base.new(
         bot: bot, recipient_id: recipient_id,
