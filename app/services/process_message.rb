@@ -61,6 +61,8 @@ class ProcessMessage < Service
       process_current_order_page
     when 'save_current_order'
       process_save_current_order
+    when 'orders'
+      process_orders_page
     else
       if message[:data] =~ /departments\/(\d+)/
         process_categories_page(department_id: $1)
@@ -74,6 +76,8 @@ class ProcessMessage < Service
         process_add_to_order(product_id: $1)
       elsif message[:data] =~ /products\/(\d+)\/remove_from_order/
         process_remove_from_order(product_id: $1)
+      elsif message[:data] =~ /orders\/(\d+)\/remove/
+        process_remove_order(order_id: $1)
       end
     end
   end
@@ -244,6 +248,35 @@ class ProcessMessage < Service
     @bot.run do |bot|
       TelegramShopBot::PageRenderers::Base.new(
         bot: bot, recipient_id: message[:user_id], text_messages: ['удален']
+      ).render_for_recipient
+    end
+  end
+
+  def process_orders_page
+    orders = Client.find_by(telegram_uid: message[:user_id])&.orders&.includes(:order_elements, :products)
+    @bot.run do |bot|
+      if orders.present?
+        orders.each do |order|
+          TelegramShopBot::PageRenderers::Order.new(
+            bot: bot, recipient_id: message[:user_id], order: order
+          ).render_for_recipient
+        end
+      else
+        TelegramShopBot::PageRenderers::Base.new(
+          bot: bot, recipient_id: message[:user_id],
+          text_messages: ['нет сохраненных заказов']
+        ).render_for_recipient
+      end
+    end
+  end
+
+  def process_remove_order(order_id:)
+    order = Client.find_by(telegram_uid: message[:user_id])&.orders&.find(order_id)
+    order.destroy
+    @bot.run do |bot|
+      TelegramShopBot::PageRenderers::Base.new(
+        bot: bot, recipient_id: message[:user_id],
+        text_messages: ['заказ отменен']
       ).render_for_recipient
     end
   end
