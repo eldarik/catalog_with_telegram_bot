@@ -23,7 +23,7 @@ class TelegramShopBot::PageRenderers::CurrentOrder < TelegramShopBot::PageRender
           keyboard_buttons: [
             { text: 'удалить', callback_data: "products/#{product.id}/remove_from_order" }
           ]
-        ).render_for_recipient
+        ).render
         TelegramShopBot::PageRenderers::Base.new(
           bot: bot, recipient_id: recipient_id,
           text_messages: [
