@@ -8,15 +8,26 @@ class TelegramShopBot::PageRenderers::CurrentOrder < TelegramShopBot::PageRender
 
   def render
     if order.present?
-      order.each do |product|
+      total = 0.0
+      order.each do |product_attr|
+        product_ = ::Product.find(product_attr['product_id'])
+        sum = product.price * product_attr['count'].to_i
+        total += sum
         TelegramShopBot::PageRenderers::Base.new(
           bot: bot, recipient_id: recipient_id,
           text_messages: [
-            ::Product.find(product['product_id']).name,
-            "количество #{product['count']}"
+            product.name,
+            "количество #{product_attr['count']}",
+            "на сумму: #{sum}"
           ],
           keyboard_buttons: [
-            { text: 'удалить', callback_data: "products/#{product['product_id']}/remove_from_order" }
+            { text: 'удалить', callback_data: "products/#{product.id}/remove_from_order" }
+          ]
+        ).render_for_recipient
+        TelegramShopBot::PageRenderers::Base.new(
+          bot: bot, recipient_id: recipient_id,
+          text_messages: [
+            "Общая сумма заказа: #{total}"
           ]
         ).render
       end
