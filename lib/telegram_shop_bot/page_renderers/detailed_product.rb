@@ -32,7 +32,8 @@ class TelegramShopBot::PageRenderers::DetailedProduct < TelegramShopBot::PageRen
   def generate_text_messages
     [
       product.name,
-      "Описание: \n#{product.description}"
+      "Описание: \n#{product.description}",
+      "Цена: \n#{product.price}"
     ]
   end
 end

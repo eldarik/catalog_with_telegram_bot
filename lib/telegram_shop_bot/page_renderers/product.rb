@@ -31,7 +31,8 @@ class TelegramShopBot::PageRenderers::Product < TelegramShopBot::PageRenderers::
   def generate_text_messages
     [
       product.name,
-      "Описание: \n#{product.description.split('.').first(2).join}."
+      "Описание: \n#{product.description.split('.').first(2).join}.",
+      "Цена: \n#{product.price}"
     ]
   end
 end
