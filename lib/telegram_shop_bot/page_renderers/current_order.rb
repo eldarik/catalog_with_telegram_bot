@@ -10,7 +10,7 @@ class TelegramShopBot::PageRenderers::CurrentOrder < TelegramShopBot::PageRender
     if order.present?
       total = 0.0
       order.each do |product_attr|
-        product_ = ::Product.find(product_attr['product_id'])
+        product = ::Product.find(product_attr['product_id'])
         sum = product.price * product_attr['count'].to_i
         total += sum
         TelegramShopBot::PageRenderers::Base.new(
