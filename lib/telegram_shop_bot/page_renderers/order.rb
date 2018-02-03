@@ -14,13 +14,11 @@ class TelegramShopBot::PageRenderers::Order < TelegramShopBot::PageRenderers::Ba
 
   def generate_text_messages
     msgs = ["заказ №#{order.id}"]
-      total = 0.0
-    msgs |= order.includes(:order_elements, :products).order_elements.map do |order_element|
+    msgs |= order.order_elements.map do |order_element|
       sum = order_element.product.price * order_element.count
-      total += sum
       "#{order_element.product.name}, #{order_element.count} шт., #{sum}"
     end
-    msgs |= "Общая сумма заказа: #{total}"
+    msgs << "Общая сумма заказа: #{order.total}"
     msgs
   end
 
