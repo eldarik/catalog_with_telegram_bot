@@ -6,7 +6,7 @@ class TelegramShopBot::PageRenderers::CurrentOrder < TelegramShopBot::PageRender
     super
   end
 
-  def render_for_recipient
+  def render
     if order.present?
       order.each do |product|
         TelegramShopBot::PageRenderers::Base.new(
@@ -18,19 +18,19 @@ class TelegramShopBot::PageRenderers::CurrentOrder < TelegramShopBot::PageRender
           keyboard_buttons: [
             { text: 'удалить', callback_data: "products/#{product['product_id']}/remove_from_order" }
           ]
-        ).render_for_recipient
+        ).render
       end
       TelegramShopBot::PageRenderers::Base.new(
         bot: bot, recipient_id: recipient_id,
         keyboard_buttons: [
           { text: 'сохранить заказ', callback_data: "save_current_order" }
         ]
-      ).render_for_recipient
+      ).render
     else
       TelegramShopBot::PageRenderers::Base.new(
         bot: bot, recipient_id: recipient_id,
         text_messages: [ "ваша корзина пуста" ]
-      ).render_for_recipient
+      ).render
     end
   end
 end
