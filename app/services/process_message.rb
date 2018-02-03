@@ -63,22 +63,20 @@ class ProcessMessage < Service
       save_current_order
     when 'orders'
       orders_page
-    else
-      if message[:data] =~ /departments\/(\d+)/
-        categories_page(department_id: $1)
-      elsif message[:data] =~ /products_next/
-        products_page
-      elsif message[:data] =~ /categories\/(\d+)/
-        products_page(category_id: $1)
-      elsif message[:data] =~ /products\/(\d+)\z/
-        product_page(product_id: $1)
-      elsif message[:data] =~ /products\/(\d+)\/add_to_order/
-        add_to_order(product_id: $1)
-      elsif message[:data] =~ /products\/(\d+)\/remove_from_order/
-        remove_from_order(product_id: $1)
-      elsif message[:data] =~ /orders\/(\d+)\/remove/
-        remove_order(order_id: $1)
-      end
+    when /departments\/(\d+)/
+      categories_page(department_id: $1)
+    when /products_next/
+      products_page
+    when /categories\/(\d+)/
+      products_page(category_id: $1)
+    when /products\/(\d+)\z/
+      product_page(product_id: $1)
+    when /products\/(\d+)\/add_to_order/
+      add_to_order(product_id: $1)
+    when /products\/(\d+)\/remove_from_order/
+      remove_from_order(product_id: $1)
+    when /orders\/(\d+)\/remove/
+      remove_order(order_id: $1)
     end
   end
 
