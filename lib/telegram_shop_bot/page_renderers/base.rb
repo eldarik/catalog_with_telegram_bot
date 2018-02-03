@@ -15,7 +15,7 @@ class TelegramShopBot::PageRenderers::Base
     @text_messages = args[:text_messages]
   end
 
-  def render_for_recipient
+  def render
     render_text_messages
     render_images
     render_keyboard
