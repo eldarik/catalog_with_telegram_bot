@@ -19,8 +19,11 @@ class Order::Save < Service
 
   def build_order
     @order = Order.new(client_id: order_attrs[:client_id])
+    total = 0.0
     order_attrs[:products].each do |product|
-      @order.order_elements.new(product)
+      order_element = @order.order_elements.new(product)
+      total += order_element.count * order_element.product.price
     end
+    @order.total = total
   end
 end
