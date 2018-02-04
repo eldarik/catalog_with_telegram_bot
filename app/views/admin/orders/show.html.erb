@@ -43,11 +43,42 @@ as well as a link to its edit page.
     <dt class="attribute-label">
       Products
     </dt>
-    <% page.resource.order_elements.each do |order_element| %>
       <dd class="attribute-data">
-        <%= link_to order_element.product.name, admin_client_path(page.resource.client) %>
-        <%= order_element.count %>
+        <table>
+          <thead>
+            <tr>
+              <th>
+              <p> Name <p>
+              </th>
+              <th class='cell-lable'>
+                <p> Count <p>
+              </th>
+              <th class='cell-lable'>
+                <p> Sum <p>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <% page.resource.order_elements.each do |order_element| %>
+              <tr>
+                <td>
+                  <%= link_to order_element.product.name, admin_client_path(page.resource.client) %>
+                </td>
+                <td>
+                  <%= order_element.count %>
+                </td>
+                <td>
+                  <%= order_element.count * order_element.product.price %>
+                </td>
+              </tr>
+            <% end %>
+            <tr>
+              <td> </td>
+              <td> Total </td>
+              <td> <%= page.resource.total %> </td>
+            </tr>
+          </tbody>
+        </table>
       </dd>
-    <% end %>
   </dl>
 </section>

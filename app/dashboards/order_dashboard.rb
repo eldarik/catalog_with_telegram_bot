@@ -11,8 +11,7 @@ class OrderDashboard < Administrate::BaseDashboard
     client: Field::BelongsTo,
     id: Field::Number,
     comment: Field::Text,
-    created_at: Field::DateTime,
-    updated_at: Field::DateTime,
+    total: Field::Number
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -24,7 +23,7 @@ class OrderDashboard < Administrate::BaseDashboard
     :client,
     :id,
     :comment,
-    :created_at,
+    :total
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
@@ -33,8 +32,7 @@ class OrderDashboard < Administrate::BaseDashboard
     :client,
     :id,
     :comment,
-    :created_at,
-    :updated_at,
+    :total
   ].freeze
 
   # FORM_ATTRIBUTES
