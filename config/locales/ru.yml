@@ -1,0 +1,57 @@
+ru:
+  administrate:
+    actions:
+      show_resource: ""
+      new_resource: Добавить
+      new: Добавить
+      show: ""
+      edit: Редактировать
+      edit_resource: Редактировать
+  activerecord:
+    models:
+      order:
+        one: Заказ
+        other: Заказы
+      product:
+        one: Товар
+        other: Товары
+      category:
+        one: Категория
+        other: Категории
+      department:
+        one: Раздел
+        other: Разделы
+      client:
+        one: Клиент
+        other: Клиенты
+    attributes:
+      category:
+        department: Раздел
+      product:
+        category: Категория
+        name: Название
+        description: Описание
+        price: Цена
+        images: Изображения
+  helpers:
+    label:
+      сategory:
+        name: Название
+        department: Раздел
+      client:
+        first_name: Имя
+        last_name: Фамилия
+        phone_number: Номер телефона
+      order:
+        client: Заказчик
+        id: Номер
+        comment: Комментарий к заказу
+        total: Итого
+      product:
+        category: Категория
+        name: Название
+        description: Описание
+        price: Цена
+        images: Изображения
+      department:
+        name: Название

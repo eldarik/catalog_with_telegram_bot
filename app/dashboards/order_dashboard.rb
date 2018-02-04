@@ -11,8 +11,7 @@ class OrderDashboard < Administrate::BaseDashboard
     client: Field::BelongsTo,
     id: Field::Number,
     comment: Field::Text,
-    created_at: Field::DateTime,
-    updated_at: Field::DateTime,
+    total: Field::Number
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -24,7 +23,7 @@ class OrderDashboard < Administrate::BaseDashboard
     :client,
     :id,
     :comment,
-    :created_at,
+    :total
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
@@ -33,8 +32,7 @@ class OrderDashboard < Administrate::BaseDashboard
     :client,
     :id,
     :comment,
-    :created_at,
-    :updated_at,
+    :total
   ].freeze
 
   # FORM_ATTRIBUTES
@@ -48,7 +46,7 @@ class OrderDashboard < Administrate::BaseDashboard
   # Overwrite this method to customize how orders are displayed
   # across all pages of the admin dashboard.
   #
-  # def display_resource(order)
-  #   "Order ##{order.id}"
-  # end
+  def display_resource(order)
+    "##{order.id}"
+  end
 end

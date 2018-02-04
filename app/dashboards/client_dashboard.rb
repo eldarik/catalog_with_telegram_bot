@@ -10,8 +10,6 @@ class ClientDashboard < Administrate::BaseDashboard
   ATTRIBUTE_TYPES = {
     id: Field::Number,
     telegram_uid: Field::String,
-    created_at: Field::DateTime,
-    updated_at: Field::DateTime,
     first_name: Field::String,
     last_name: Field::String,
     phone_number: Field::String
@@ -50,7 +48,7 @@ class ClientDashboard < Administrate::BaseDashboard
   # Overwrite this method to customize how clients are displayed
   # across all pages of the admin dashboard.
   #
-  # def display_resource(client)
-  #   "Client ##{client.id}"
-  # end
+  def display_resource(client)
+    client.telegram_uid
+  end
 end
