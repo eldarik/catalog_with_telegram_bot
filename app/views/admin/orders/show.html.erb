@@ -35,26 +35,26 @@ as well as a link to its edit page.
 <section class="main-content__body">
   <dl>
     <dt class="attribute-label">
-      Client
+      Заказчик
     </dt>
     <dd class="attribute-data">
       <%= link_to page.resource.client.telegram_uid, admin_client_path(page.resource.client) %>
     </dd>
     <dt class="attribute-label">
-      Products
+      Товары
     </dt>
       <dd class="attribute-data">
         <table>
           <thead>
             <tr>
               <th>
-              <p> Name <p>
+              <p> Название <p>
               </th>
               <th class='cell-lable'>
-                <p> Count <p>
+                <p> Количество <p>
               </th>
               <th class='cell-lable'>
-                <p> Sum <p>
+                <p> Сумма <p>
               </th>
             </tr>
           </thead>
@@ -74,7 +74,7 @@ as well as a link to its edit page.
             <% end %>
             <tr>
               <td> </td>
-              <td> Total </td>
+              <td> Итого </td>
               <td> <%= page.resource.total %> </td>
             </tr>
           </tbody>

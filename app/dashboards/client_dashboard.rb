@@ -10,8 +10,6 @@ class ClientDashboard < Administrate::BaseDashboard
   ATTRIBUTE_TYPES = {
     id: Field::Number,
     telegram_uid: Field::String,
-    created_at: Field::DateTime,
-    updated_at: Field::DateTime,
     first_name: Field::String,
     last_name: Field::String,
     phone_number: Field::String

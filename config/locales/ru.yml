@@ -1,0 +1,29 @@
+ru:
+  activerecord:
+    models:
+      order:
+        one: Заказ
+        other: Заказы
+      product:
+        one: Товар
+        other: Товар
+      category:
+        one: Категория
+        other: Категории
+      department:
+        one: Раздел
+        other: Разделы
+      client:
+        one: Клиент
+        other: Клиенты
+  helpers:
+    label:
+      client:
+        first_name: Имя
+        last_name: Фамилия
+        phone_number: Номер телефона
+      order:
+        client: Заказчик
+        id: Номер
+        comment: Комментарий к заказу
+        total: Итого

@@ -10,8 +10,6 @@ class DepartmentDashboard < Administrate::BaseDashboard
   ATTRIBUTE_TYPES = {
     id: Field::Number,
     name: Field::String,
-    created_at: Field::DateTime,
-    updated_at: Field::DateTime,
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -22,8 +20,6 @@ class DepartmentDashboard < Administrate::BaseDashboard
   COLLECTION_ATTRIBUTES = [
     :id,
     :name,
-    :created_at,
-    :updated_at,
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
@@ -31,8 +27,6 @@ class DepartmentDashboard < Administrate::BaseDashboard
   SHOW_PAGE_ATTRIBUTES = [
     :id,
     :name,
-    :created_at,
-    :updated_at,
   ].freeze
 
   # FORM_ATTRIBUTES

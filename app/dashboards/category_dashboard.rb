@@ -11,8 +11,6 @@ class CategoryDashboard < Administrate::BaseDashboard
     department: Field::BelongsTo,
     id: Field::Number,
     name: Field::String,
-    created_at: Field::DateTime,
-    updated_at: Field::DateTime,
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -24,7 +22,6 @@ class CategoryDashboard < Administrate::BaseDashboard
     :department,
     :id,
     :name,
-    :created_at,
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
@@ -33,8 +30,6 @@ class CategoryDashboard < Administrate::BaseDashboard
     :department,
     :id,
     :name,
-    :created_at,
-    :updated_at,
   ].freeze
 
   # FORM_ATTRIBUTES

@@ -12,8 +12,6 @@ class ProductDashboard < Administrate::BaseDashboard
     id: Field::Number,
     name: Field::String,
     description: Field::Text,
-    created_at: Field::DateTime,
-    updated_at: Field::DateTime,
     price: Field::Number,
     images: Field::AttachinaryField
   }.freeze
@@ -38,8 +36,6 @@ class ProductDashboard < Administrate::BaseDashboard
     :id,
     :name,
     :description,
-    :created_at,
-    :updated_at,
     :price,
     :images
   ].freeze
