@@ -114,6 +114,7 @@ class ProcessMessage < Service
       )
 
     if service_result.success?
+      current_state.update(order: [])
       @bot.run do |bot|
         TelegramShopBot::PageRenderers::Base.new(
           bot: bot, recipient_id: message[:user_id],
