@@ -1,4 +1,6 @@
 #!/bin/bash
+source /etc/profile.d/rvm.sh
+
 if [ `ps -ef | grep sidekiq | grep -v grep | awk '{print $2}'` -gt 0 ]
 then
   echo 'sidekiq is running'
