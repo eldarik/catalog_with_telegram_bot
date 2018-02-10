@@ -1,4 +1,18 @@
-cp production.env .env
-source .env
-bin/bot & disown
-bundle exec sidekiq -d -l log/sidekiq.logs
+#!/bin/bash
+if [ `ps -ef | grep sidekiq | grep -v grep | awk '{print $2}'` > 0 ]
+then
+  echo 'sidekiq is running'
+else
+  echo 'sidekiq is not running'
+  bundle exec sidekiq -d -l log/sidekiq.logs
+fi
+
+if [ `ps -ef | grep tg_bot | grep -v grep | awk '{print $2}'` > 0 ]
+then
+  echo 'bot is running'
+else
+  echo 'bot is not running'
+  cp production.env .env
+  source .env
+  bin/bot & disown
+fi
