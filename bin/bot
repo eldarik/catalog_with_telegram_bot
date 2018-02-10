@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+Process.setproctitle("tg_bot")
 
 ENV['RAILS_ENV'] = "production"
 require_relative '../config/environment.rb'
