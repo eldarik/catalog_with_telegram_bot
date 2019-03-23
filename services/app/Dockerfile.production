@@ -20,3 +20,5 @@ RUN bundle install
 WORKDIR $PROJECT_ROOT
 
 COPY . .
+
+RUN bundle exec rake assets:precompile
