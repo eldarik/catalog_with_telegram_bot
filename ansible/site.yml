@@ -1,0 +1,29 @@
+---
+- hosts: all
+  tasks:
+    - apt:
+        update_cache: true
+        name:
+          - python3
+          - python3-pip
+          - docker.io
+      become: true
+
+    - name: ensure group docker exists
+      group:
+        name: docker
+      become: true
+
+    - pip:
+        name: docker
+      become: true
+
+    - user:
+        name: "{{ catalog_with_telegram_bot_run_user }}"
+        groups: docker
+        append: true
+      become: true
+
+    - docker_network:
+        name: "{{ catalog_with_telegram_bot_docker_network }}"
+      tags: docker_network

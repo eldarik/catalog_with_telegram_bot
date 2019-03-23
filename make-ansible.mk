@@ -1,3 +1,6 @@
+ansible-deps-install:
+	ansible-galaxy install -r requirements.yml
+
 ansible-development-update-env:
 	docker run  -v $(CURDIR):/usr/src/app -w /app williamyeh/ansible:ubuntu18.04 ansible-playbook ansible/development.yml -i ansible/development -vv --tag env
 
