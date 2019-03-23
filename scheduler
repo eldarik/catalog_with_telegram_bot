@@ -1,1 +1,0 @@
-* */3 * * * cd /root/catalog_for_tg_bot/catalog_with_telegram_bot && bin/run 2>~/cron_logs
