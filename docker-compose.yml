@@ -1,10 +1,16 @@
-version: '2'
+version: '3.3'
 services:
-  redis:
-    image: redis
+  app:
+    build:
+      context: services/app
+      dockerfile: Dockerfile.development
+    command: sh -c "rails s"
     ports:
-      - "6379:6379"
-
+      - "8080:<internal port, your application>"
+    volumes:
+      - "~/.bash_history:/.bash_history"
+      - "./services/app:/usr/src/app:cached"
+      - "/tmp:/tmp:delegated"
 networks:
   log:
     driver: bridge
