@@ -11,8 +11,16 @@ services:
       context: .
       dockerfile: Dockerfile.production
     command: sh -c "rails db:create db:migrate && rspec spec"
-    env_file:
-      - .env.test
+    env:
+      - SECRET_KEY_BASE=foobar
+      - DATABASE_URL=postgres://postgres:postgres@db:5432/test
+      - REDIS_URL=redis://redis:6379
+      - RAILS_ENV=test
+      - RAILS_LOG_TO_STDOUT=false
+      - ADMIN_USER=admin
+      - ADMIN_PASSWORD_DIGEST=06ef9a683d41817e3a76752c2deb7294d45554f1265eec7ef227d51f2827b29240e94cb8147456e39f536db090e7b165be00ed22e975b1f2677e9309b04cb93d
+      - ADMIN_USER_PEPPER=foobar
+      - PASSWORD=password
     depends_on:
       - db
       - redis
