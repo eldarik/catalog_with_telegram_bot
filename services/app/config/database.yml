@@ -6,12 +6,7 @@ default: &default
 
 development:
   <<: *default
-  database: shop_with_telegram_bot_development
 test:
   <<: *default
-  database: shop_with_telegram_bot_test
 production:
   <<: *default
-  database: shop_with_telegram_bot_production
-  username: shop_with_telegram_bot
-  password: <%= ENV['SHOP_WITH_TELEGRAM_BOT_DATABASE_PASSWORD'] %>
