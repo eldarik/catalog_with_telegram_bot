@@ -43,3 +43,12 @@
         src: environment.j2
         dest: "{{ catalog_with_telegram_bot_env_file }}"
       tags: env
+
+    - name: create db dir
+      file:
+        path: "{{ catalog_with_telegram_bot_app_path }}/db_data"
+        state: directory
+        mode: 0755
+        owner: "{{ catalog_with_telegram_bot_run_user }}"
+        group: "{{ catalog_with_telegram_bot_run_user }}"
+      become: true

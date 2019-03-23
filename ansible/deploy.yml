@@ -1,0 +1,106 @@
+---
+- hosts: all
+  gather_facts: no
+  vars_prompt:
+    - name: "catalog_with_telegram_bot_image_tag"
+      prompt: "Catalog with telegram bot image tag"
+      private: no
+
+  tasks:
+    - set_fact: catalog_with_telegram_bot_image_tag={{ catalog_with_telegram_bot_image_tag }}
+      tags: always
+
+- hosts: production
+  tasks:
+    - name: pull nginx
+      docker_image:
+        name: "{{ catalog_with_telegram_bot_nginx_image_name }}:latest"
+        force: yes
+
+    - name: pull app
+      docker_image:
+        name: "{{ catalog_with_telegram_bot_image_name }}:{{ catalog_with_telegram_bot_image_tag }}"
+        force: yes
+
+    - name: pull postgres image
+      docker_image:
+        name: postgres:10
+        state: present
+
+    - name: start db
+      docker_container:
+        name: db
+        state: started
+        restart_policy: always
+        image: postgres:10
+        pull: false
+        detach: yes
+        networks:
+          - name: "{{ catalog_with_telegram_bot_docker_network }}"
+        volumes:
+          - "{{ catalog_with_telegram_bot_app_path }}/db_data:/var/lib/postgresql/data"
+
+    - name: pull redis image
+      docker_image:
+        name: redis
+        state: present
+
+    - name: start redis
+      docker_container:
+        name: redis
+        state: started
+        restart_policy: always
+        image: redis
+        pull: false
+        detach: yes
+        networks:
+          - name: "{{ catalog_with_telegram_bot_docker_network }}"
+
+    - name: create app db
+      docker_container:
+        recreate: yes
+        name: create_app_db
+        command: "rails db:create"
+        image: "{{ catalog_with_telegram_bot_image_name }}:{{ catalog_with_telegram_bot_image_tag }}"
+        state: started
+        env_file: "{{ catalog_with_telegram_bot_env_file }}"
+        networks:
+          - name: "{{ catalog_with_telegram_bot_docker_network }}"
+      run_once: yes
+
+    - name: run migrations
+      docker_container:
+        recreate: yes
+        name: app_migrations
+        command: "rails db:migrate"
+        image: "{{ catalog_with_telegram_bot_image_name }}:{{ catalog_with_telegram_bot_image_tag }}"
+        state: started
+        env_file: "{{ catalog_with_telegram_bot_env_file }}"
+        networks:
+          - name: "{{ catalog_with_telegram_bot_docker_network }}"
+      run_once: yes
+      tags: app
+
+    - name: start app
+      docker_container:
+        recreate: yes
+        name: app
+        state: started
+        command: sh -c "rails s"
+        image: "{{ catalog_with_telegram_bot_image_name }}:{{ catalog_with_telegram_bot_image_tag }}"
+        env_file: "{{ catalog_with_telegram_bot_env_file }}"
+        exposed_ports:
+          - 3000
+        networks:
+          - name: "{{ catalog_with_telegram_bot_docker_network }}"
+      tags: app
+
+    - name: start nginx
+      docker_container:
+        name: nginx
+        image: "{{ catalog_with_telegram_bot_nginx_image_name }}:latest"
+        state: started
+        networks:
+          - name: "{{ catalog_with_telegram_bot_docker_network }}"
+        ports:
+          - 80:80
