@@ -11,7 +11,7 @@ services:
       context: .
       dockerfile: Dockerfile.production
     command: sh -c "rails db:create db:migrate && rspec spec"
-    env:
+    environment:
       - SECRET_KEY_BASE=foobar
       - DATABASE_URL=postgres://postgres:postgres@db:5432/test
       - REDIS_URL=redis://redis:6379
