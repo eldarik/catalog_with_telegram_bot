@@ -1,5 +1,6 @@
 services/app/log/*
 services/app/tmp/*
+services/app/public/assets/*
 
 !services/app/log/.keep
 !services/app/tmp/.keep
