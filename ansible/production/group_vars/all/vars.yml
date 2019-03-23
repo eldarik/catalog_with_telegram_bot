@@ -1,10 +1,13 @@
 ansible_user: deploy
 ansible_python_interpreter: "/usr/bin/env python3"
 
-catalog_with_telegram_bot_run_user: deploy
 
 rack_env: production
 rails_env: production
 rails_log_to_stdout: null
 
 catalog_with_telegram_bot_docker_network: catalog_with_telegram_bot_docker_network
+catalog_with_telegram_bot_run_user: deploy
+catalog_with_telegram_bot_run_user_home: /home/deploy
+catalog_with_telegram_bot_app_path: "{{ catalog_with_telegram_bot_run_user_home }}/catalog_with_telegram_bot"
+catalog_with_telegram_bot_env_file: "{{ catalog_with_telegram_bot_app_path }}/.env"
