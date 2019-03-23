@@ -17,7 +17,10 @@ compose-db-init:
 	docker-compose run app rails db:create
 	docker-compose run app rails db:migrate
 
-compose-setup: compose-build compose-install compose-db-init
+compose-setup: ansible-development-setup-env \
+	compose-build \
+	compose-install \
+	compose-db-init
 
 compose-restart:
 	docker-compose restart
