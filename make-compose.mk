@@ -4,6 +4,9 @@ compose:
 compose-build:
 	docker-compose build
 
+compose-install:
+	docker-compose run app bundle install
+
 compose-bash:
 	docker-compose run app bash
 
