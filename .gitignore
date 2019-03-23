@@ -13,6 +13,7 @@ services/app/tmp/*
 !services/app/log/.keep
 !services/app/tmp/.keep
 
+tmp
 # Ignore Byebug command history file.
 .byebug_history
 .env
