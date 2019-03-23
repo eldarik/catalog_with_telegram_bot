@@ -28,3 +28,5 @@ services:
       context: services/nginx
     ports:
       - "80:80"
+    depends_on:
+      - app
