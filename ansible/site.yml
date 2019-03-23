@@ -32,3 +32,14 @@
     - docker_network:
         name: "{{ catalog_with_telegram_bot_docker_network }}"
       tags: docker_network
+
+  tasks:
+    - name: create app dir
+      file:
+        path: "{{ catalog_with_telegram_bot_app_path }}"
+        state: directory
+
+    - template:
+        src: environment.j2
+        dest: "{{ catalog_with_telegram_bot_env_file }}"
+      tags: env
