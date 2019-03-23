@@ -1,17 +1,24 @@
 version: '3.3'
 services:
+  db:
+    image: postgres
+
+  redis:
+    image: redis
+
   app:
     build:
       context: services/app
       dockerfile: Dockerfile.development
     command: sh -c "rails s"
+    env_file:
+      .env
+    depends_on:
+      - db
+      - redis
     ports:
-      - "8080:<internal port, your application>"
+      - "8080:3000"
     volumes:
       - "~/.bash_history:/.bash_history"
       - "./services/app:/usr/src/app:cached"
       - "/tmp:/tmp:delegated"
-networks:
-  log:
-    driver: bridge
-
