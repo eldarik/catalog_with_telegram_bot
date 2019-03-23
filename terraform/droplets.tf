@@ -1,4 +1,4 @@
-resource "digitalocean_droplet" "web" {
+resource "digitalocean_droplet" "web-1" {
   private_networking = true
   image  = "ubuntu-18-04-x64"
   name   = "web-1"
@@ -7,5 +7,15 @@ resource "digitalocean_droplet" "web" {
   ssh_keys = [
     "${digitalocean_ssh_key.eldars.fingerprint}"
   ]
-  count = 2
+}
+
+resource "digitalocean_droplet" "web-2" {
+  private_networking = true
+  image  = "ubuntu-18-04-x64"
+  name   = "web-2"
+  region = "nyc1"
+  size   = "s-1vcpu-1gb"
+  ssh_keys = [
+    "${digitalocean_ssh_key.eldars.fingerprint}"
+  ]
 }
