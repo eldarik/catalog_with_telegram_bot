@@ -1,0 +1,3 @@
+rails_env: development
+rack_env: development
+rails_log_to_stdout: true
