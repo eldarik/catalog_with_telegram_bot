@@ -13,12 +13,18 @@ services:
     command: sh -c "rails s"
     env_file:
       .env
+    expose:
+      - "3000"
     depends_on:
       - db
       - redis
-    ports:
-      - "8080:3000"
     volumes:
       - "~/.bash_history:/.bash_history"
       - "./services/app:/usr/src/app:cached"
       - "/tmp:/tmp:delegated"
+
+  nginx:
+    build:
+      context: services/nginx
+    ports:
+      - "80:80"
