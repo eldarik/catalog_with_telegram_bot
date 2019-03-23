@@ -11,4 +11,5 @@ Rails.application.routes.draw do
     root to: "clients#index"
   end
 
+  root 'admin/clients#index'
 end
