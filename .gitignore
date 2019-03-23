@@ -10,3 +10,11 @@ tmp
 .env
 
 *.retry
+
+terraform/.terraform/
+.terraform.tfstate.lock*
+terraform.tfstate
+terraform.tfstate.backup
+
+terraform/ssh_public_keys/*
+!terraform/ssh_public_keys/.keep
