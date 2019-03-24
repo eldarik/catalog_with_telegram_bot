@@ -103,4 +103,4 @@
         networks:
           - name: "{{ catalog_with_telegram_bot_docker_network }}"
         ports:
-          - 80:80
+          - 8080:80
