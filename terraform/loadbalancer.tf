@@ -20,3 +20,8 @@ resource "digitalocean_loadbalancer" "public" {
     "${digitalocean_droplet.web-2.id}"
   ]
 }
+
+resource "digitalocean_domain" "blink" {
+  name       = "blink.sergeylobin.ru"
+  ip_address = "${digitalocean_loadbalancer.public.ip}"
+}

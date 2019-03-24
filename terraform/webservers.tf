@@ -1,6 +1,6 @@
 resource "digitalocean_droplet" "web-1" {
   private_networking = true
-  image  = "ubuntu-18-04-x64"
+  image  = "docker-18-04"
   name   = "web-1"
   region = "sgp1"
   size   = "s-1vcpu-1gb"
@@ -11,7 +11,7 @@ resource "digitalocean_droplet" "web-1" {
 
 resource "digitalocean_droplet" "web-2" {
   private_networking = true
-  image  = "ubuntu-18-04-x64"
+  image  = "docker-18-04"
   name   = "web-2"
   region = "sgp1"
   size   = "s-1vcpu-1gb"
