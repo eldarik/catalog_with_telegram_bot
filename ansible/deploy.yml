@@ -11,6 +11,7 @@
       tags: always
 
 - hosts: production
+  gather_facts: no
   tasks:
     - name: pull nginx
       docker_image:
