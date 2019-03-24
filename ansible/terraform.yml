@@ -1,0 +1,8 @@
+---
+- hosts: all
+  gather_facts: no
+  tasks:
+    - template:
+        src: terraform_vars.j2
+        dest: '../terraform/terraform.tfvars'
+      tags: terraform

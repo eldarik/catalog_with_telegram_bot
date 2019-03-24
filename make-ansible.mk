@@ -21,3 +21,6 @@ ansible-vaults-decrypt:
 
 ansible-vaults-edit:
 	ansible-vault edit ansible/production/group_vars/all/vault.yml
+
+ansible-setup-terraform-vars:
+	ansible-playbook ansible/terraform.yml -i ansible/development
