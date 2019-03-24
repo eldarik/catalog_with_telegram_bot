@@ -4,5 +4,5 @@
   tasks:
     - template:
         src: terraform_vars.j2
-        dest: '../terraform/terraform.tfvars'
+        dest: '../terraform/secrets.auto.tfvars'
       tags: terraform
