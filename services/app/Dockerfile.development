@@ -8,6 +8,10 @@ RUN apt-get update -qq && apt-get install -y \
   build-essential \
   libpq-dev \
   postgresql-client \
-  nodejs
+  nodejs && \
+  rm -rf /var/lib/apt/lists/*t
+
+ENV BUNDLE_PATH       $PROJECT_ROOT/vendor/bundle
+ENV GEM_HOME          $PROJECT_ROOT/vendor/bundle
 
 WORKDIR $PROJECT_ROOT

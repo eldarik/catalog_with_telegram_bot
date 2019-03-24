@@ -11,11 +11,11 @@ compose-bash:
 	docker-compose run app bash
 
 compose-console:
-	docker-compose run app rails c
+	docker-compose run app bin/rails c
 
 compose-db-init:
-	docker-compose run app rails db:create
-	docker-compose run app rails db:migrate
+	docker-compose run app bin/rails db:create
+	docker-compose run app bin/rails db:migrate
 
 compose-setup: ansible-development-setup-env \
 	compose-build \

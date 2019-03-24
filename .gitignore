@@ -18,3 +18,5 @@ terraform.tfstate.backup
 
 terraform/ssh_public_keys/*
 !terraform/ssh_public_keys/.keep
+
+services/app/vendor/

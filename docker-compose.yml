@@ -10,7 +10,7 @@ services:
     build:
       context: services/app
       dockerfile: Dockerfile.development
-    command: sh -c "rails s"
+    command: sh -c "bin/rails s"
     env_file:
       .env
     expose:

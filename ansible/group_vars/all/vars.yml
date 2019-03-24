@@ -2,3 +2,5 @@ app_port: 3000
 
 catalog_with_telegram_bot_image_name: "eldark/catalog_with_telegram_bot"
 catalog_with_telegram_bot_nginx_image_name: "eldark/catalog_with_telegram_bot_nginx"
+
+ansible_python_interpreter: "/usr/bin/env python3"
