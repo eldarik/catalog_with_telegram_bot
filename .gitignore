@@ -21,3 +21,5 @@ terraform.tfvars
 
 terraform/ssh_public_keys/*
 !terraform/ssh_public_keys/.keep
+
+terraform/secrets.auto.tfvars
