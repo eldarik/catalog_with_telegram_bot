@@ -22,24 +22,6 @@
         name: "{{ catalog_with_telegram_bot_image_name }}:{{ catalog_with_telegram_bot_image_tag }}"
         force: yes
 
-    - name: pull postgres image
-      docker_image:
-        name: postgres:10
-        state: present
-
-    - name: start db
-      docker_container:
-        name: db
-        state: started
-        restart_policy: always
-        image: postgres:10
-        pull: false
-        detach: yes
-        networks:
-          - name: "{{ catalog_with_telegram_bot_docker_network }}"
-        volumes:
-          - "{{ catalog_with_telegram_bot_app_path }}/db_data:/var/lib/postgresql/data"
-
     - name: pull redis image
       docker_image:
         name: redis

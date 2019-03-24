@@ -2,6 +2,8 @@ services/app/log/*
 services/app/tmp/*
 services/app/public/assets/*
 
+services/app/vendor/
+
 !services/app/log/.keep
 !services/app/tmp/.keep
 
@@ -15,8 +17,7 @@ terraform/.terraform/
 .terraform.tfstate.lock*
 terraform.tfstate
 terraform.tfstate.backup
+terraform.tfvars
 
 terraform/ssh_public_keys/*
 !terraform/ssh_public_keys/.keep
-
-services/app/vendor/
